@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sváteční oběd U Rozvařilů</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f0e8;
+      color: #193b2b;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: min(100%, 1100px);
+      padding: 55px 28px 45px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 42px;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto 28px;
+    }
+
+    .unit {
+      background: #dfe2ce;
+      border-radius: 16px;
+      padding: 24px 12px 20px;
+    }
+
+    .number {
+      display: block;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 1;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+    }
+
+    .label {
+      display: block;
+      margin-top: 10px;
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: #405648;
+    }
+
+    .date {
+      margin-bottom: 34px;
+      font-size: clamp(1.05rem, 2.2vw, 1.45rem);
+      letter-spacing: .04em;
+    }
+
+    .food {
+      width: 100%;
+      height: 390px;
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(30, 45, 35, .12);
+      background: #ddd;
+    }
+
+    .food img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center bottom;
+      transform: scale(1.02);
+    }
+
+    #finished {
+      display: none;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 30px;
+    }
+
+    @media (max-width: 650px) {
+      .page { padding: 35px 16px; }
+      h1 { margin-bottom: 28px; }
+      .countdown { gap: 8px; }
+      .unit { padding: 18px 6px; border-radius: 12px; }
+      .label { font-size: .65rem; }
+      .food { height: 270px; border-radius: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>sváteční oběd U Rozvařilů</h1>
+
+    <div id="countdown" class="countdown">
+      <div class="unit">
+        <span id="days" class="number">0</span>
+        <span class="label">dní</span>
+      </div>
+      <div class="unit">
+        <span id="hours" class="number">00</span>
+        <span class="label">hodin</span>
+      </div>
+      <div class="unit">
+        <span id="minutes" class="number">00</span>
+        <span class="label">minut</span>
+      </div>
+      <div class="unit">
+        <span id="seconds" class="number">00</span>
+        <span class="label">sekund</span>
+      </div>
+    </div>
+
+    <div class="date">27. října 2026 v 11:30</div>
+
+    <div class="food">
+      <img src="jidlo_a_kava.png" alt="Smažený sýr s hranolkami a káva">
+    </div>
+
+    <div id="finished">Termín právě nastal!</div>
+  </main>
+
+  <script>
+    const target = new Date(2026, 9, 27, 11, 30, 0);
+
+    function updateCountdown() {
+      const now = new Date();
+      const difference = target - now;
+
+      if (difference <= 0) {
+        document.getElementById("countdown").style.display = "none";
+        document.getElementById("finished").style.display = "block";
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
+
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
